@@ -33,10 +33,22 @@ repositories {
 	mavenCentral()
 }
 
+apply plugin: 'war'
+war {
+	baseName = 'SWRMRosterMgmtServer'
+	version = '0.1.0'
+}
+
+/**
 jar {
 	baseName = 'SWRMRosterMgmtServer'
 	version = '0.1.0'
 	
+}
+**/
+
+configurations {
+	providedRuntime
 }
 
 dependencies {
@@ -54,6 +66,9 @@ dependencies {
 		compile("org.springframework.boot:spring-boot-starter-web") {
 			exclude module: "spring-boot-starter-tomcat"
 		}
+		
+		providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+		
 		compile("org.springframework.boot:spring-boot-starter-jetty")
 		// end::jetty[]
 	  
@@ -80,6 +95,24 @@ dependencies {
 }
 
 test {
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
+
+task unitTest(type: Test) {
+		exclude '**/functional/**'
+		exclude '**/controller/**'
+		exclude '**/service/**'
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+}
+
+task functionalTest(type: Test) {
+		exclude '**/unit/**'
+		exclude '**/controller/**'
+		exclude '**/service/**'
 	testLogging {
 		events "passed", "skipped", "failed"
 	}

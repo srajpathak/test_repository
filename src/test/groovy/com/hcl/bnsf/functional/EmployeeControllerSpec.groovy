@@ -1,4 +1,4 @@
-package com.hcl.bnsf.controller
+package com.hcl.bnsf.functional
 
 /**
 import spock.lang.Specification
